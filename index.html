@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> Tic Tac Toe </title>
+	<style type="text/css">
+		* {
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+		}
+
+		.con {
+			width: 300px;
+			overflow: hidden;
+			margin: 100px auto 20px auto;
+		}
+
+		.boxes {
+			float: left;
+			width: 100px;
+			height: 100px;
+			border: 1px solid #000;
+			transition: all .25s ease;
+			font-size: 45px;
+			text-align: center;
+			line-height: 100px;
+			cursor: pointer;
+		}
+		.boxes:hover {
+			background: rgba(0, 0, 0, 0.4);
+			color: #fff;
+		}
+
+		.boxes .win:hover {
+			background: orange;
+			color: #fff;
+		}
+
+		button {
+			background: rgba(0, 200, 0, 1);
+			color: #fff;
+			font-weight: bold;
+			border: 1px solid black;
+			cursor: pointer;
+			width: 220px;
+			height: 40px;
+			font-size: 25px;
+			display: block;
+			margin: auto;
+		}
+
+		span {
+			width: 100%;
+			display: block;
+			text-align: center;
+			color: #fff;
+			font-size: 35px;
+			background: rgba(0, 0, 200, 0.8);
+			padding: 5px;
+			margin-bottom: 2px;
+		}
+
+		.win {
+			background: orange;
+			color: #fff;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="con" id="main">
+		<span id="nextturn">PLAY</span>
+		<div class="boxes" id="box1"></div>
+		<div class="boxes" id="box2"></div>
+		<div class="boxes" id="box3"></div>
+		<div class="boxes" id="box4"></div>
+		<div class="boxes" id="box5"></div>
+		<div class="boxes" id="box6"></div>
+		<div class="boxes" id="box7"></div>
+		<div class="boxes" id="box8"></div>
+		<div class="boxes" id="box9"></div>
+	</div>
+	<button onclick="playAgain()">Play Again</button>
+	<script type="text/javascript">
+
+		var nextturn = document.getElementById("nextturn");
+
+		function getBox() {
+			var box1 = document.getElementById("box1");
+			var box2 = document.getElementById("box2");
+			var box3 = document.getElementById("box3");
+			var box4 = document.getElementById("box4");
+			var box5 = document.getElementById("box5");
+			var box6 = document.getElementById("box6");
+			var box7 = document.getElementById("box7");
+			var box8 = document.getElementById("box8");
+			var box9 = document.getElementById("box9");
+
+			if (box1.innerHTML !== "" && box1.innerHTML === box2.innerHTML && box1.innerHTML === box3.innerHTML)
+				return winnner(box1, box2, box3);
+
+			if (box4.innerHTML !== "" && box4.innerHTML === box5.innerHTML && box4.innerHTML === box6.innerHTML)
+				return winnner(box4, box5, box6);
+
+			if (box7.innerHTML !== "" && box7.innerHTML === box8.innerHTML && box7.innerHTML === box9.innerHTML)
+				return winnner(box7, box8, box9);
+
+			if (box1.innerHTML !== "" && box1.innerHTML === box4.innerHTML && box1.innerHTML === box7.innerHTML)
+				return winnner(box1, box4, box7);
+
+			if (box1.innerHTML !== "" && box1.innerHTML === box5.innerHTML && box1.innerHTML === box9.innerHTML)
+				return winnner(box1, box5, box9);
+
+			if (box2.innerHTML !== "" && box2.innerHTML === box5.innerHTML && box2.innerHTML === box8.innerHTML)
+				return winnner(box2, box5, box8);
+
+			if (box3.innerHTML !== "" && box3.innerHTML === box5.innerHTML && box3.innerHTML === box7.innerHTML)
+				return winnner(box3, box5, box7);
+
+			if (box3.innerHTML !== "" && box3.innerHTML === box6.innerHTML && box3.innerHTML === box9.innerHTML)
+				return winnner(box3, box6, box9);
+		}
+
+		var boxes = document.querySelectorAll('#main div'), X_or_O = 0;
+
+		for (var i = 0; i < boxes.length; i++) {
+			boxes[i].onclick = function (e) {
+				if (X_or_O < 8) 
+				{
+					if (this.innerHTML !== "X" && this.innerHTML !== "O") {
+						if (X_or_O % 2 === 0)
+						{
+							// console.log(X_or_O);
+							if (!getBox()) 
+							{
+								this.innerHTML = "X";
+								nextturn.innerHTML = "O TURN";
+								getBox();
+								X_or_O += 1;
+							}
+						}
+						else {
+							if (!getBox()) {
+								this.innerHTML = "O";
+								nextturn.innerHTML = "X TURN";
+								getBox();
+								X_or_O += 1;
+							}
+						}
+					}
+				}
+				else if (X_or_O == 8 && getBox() != 1) 
+				{
+					if (this.innerHTML !== "X" && this.innerHTML !== "O") {
+						if (X_or_O % 2 === 0) {
+							if (!getBox()) {
+								this.innerHTML = "X";
+							}
+						}
+						else {
+							if (!getBox()) {
+								this.innerHTML = "O";
+							}
+						}
+					}
+					nextturn.innerHTML = "Match DRAW!";
+				}
+				else if (X_or_O > 8) 
+				{
+					e.preventDefault();
+				}
+			};
+		}
+
+		function winnner(b1, b2, b3) {
+			b1.classList.add("win");
+			b2.classList.add("win");
+			b3.classList.add("win");
+			nextturn.innerHTML = b1.innerHTML + " WON THE MATCH ";
+			nextturn.style.fontSize = "25px";
+			return 1;
+		}
+
+		function playAgain()
+		{
+			X_or_O = 0;
+			for (var i = 0; i < boxes.length; i++) {
+				boxes[i].classList.remove("win");
+				boxes[i].innerHTML = "";
+			}
+			nextturn.innerHTML = "PLAY";
+			nextturn.style.fontSize = "35px";
+		}
+	</script>
+</body>
+
+</html>
