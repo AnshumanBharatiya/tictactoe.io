@@ -35,6 +35,7 @@
 			background: rgba(0, 0, 0, 0.4);
 			color: #fff;
 		}
+
 		button {
 			background: rgba(0, 200, 0, 1);
 			color: #fff;
@@ -49,7 +50,6 @@
 			border-radius: 20px ;
 			box-shadow: 0 3px 0 black;
 		}
-
 		span {
 			width: 100%;
 			display: block;
@@ -60,6 +60,7 @@
 			padding: 5px;
 			margin-bottom: 2px;
 			border-radius: 20px ;
+
 		}
 
 		.win {
@@ -69,7 +70,6 @@
 		.win:hover {
 			background: orange;
 			color: #fff;
-		}
 	</style>
 </head>
 
@@ -129,14 +129,15 @@
 
 		var boxes = document.querySelectorAll('#main div'), X_or_O = 0;
 
-		for (var i = 0; i < boxes.length; i++) {
-			boxes[i].onclick = function (e) {
+		for (var i = 0; i < boxes.length; i++)
+		{
+			boxes[i].onclick = function (e) 
+			{
 				if (X_or_O < 8) 
 				{
 					if (this.innerHTML !== "X" && this.innerHTML !== "O") {
 						if (X_or_O % 2 === 0)
 						{
-							// console.log(X_or_O);
 							if (!getBox()) 
 							{
 								this.innerHTML = "X";
